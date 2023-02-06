@@ -84,6 +84,18 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-debug-toolbar"
+version = "3.4.0"
+description = "A configurable set of panels that display various debug information about the current request/response."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Django = ">=3.2"
+sqlparse = ">=0.2.0"
+
+[[package]]
 name = "django-split-settings"
 version = "1.2.0"
 description = "Organize Django settings into multiple files and directories. Easily override and modify settings. Use wildcards and optional settings files."
@@ -302,7 +314,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "13dc233b449a293145d0e1573f6527aee856ec54374b391cd08662987a1191b3"
+content-hash = "65e99793aaeb0e1b8548f5f0322bf69d008dc88b74f5f25ffdad33c21ed67d27"
 
 [metadata.files]
 asgiref = []
@@ -335,6 +347,7 @@ black = [
 click = []
 colorama = []
 django = []
+django-debug-toolbar = []
 django-split-settings = []
 exceptiongroup = []
 flake8 = [

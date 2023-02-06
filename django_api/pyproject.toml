@@ -1,0 +1,36 @@
+[tool.black]
+line-length = 79
+target-version = ['py39']
+include = '\.pyi?$'
+exclude = '''
+/(
+   venv
+   | migrations
+)/
+'''
+
+[tool.poetry]
+name = "movies_api"
+version = "0.1.0"
+description = ""
+authors = ["Аксентий Виктория Георгиевна <vgaksentii@domclick.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "3.2.4"
+django-split-settings = "1.2.0"
+python-dateutil = "2.8.2"
+python-dotenv = "0.21.1"
+psycopg2-binary = "2.9.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "7.2.1"
+click = "8.0.4"
+# linters
+black = "22.1.0"
+flake8 = "4.0.1"
+isort = "5.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -8,3 +8,11 @@ services:
       POSTGRES_PASSWORD: "123qwe"
     ports:
       - "5432:5432"
+  swagger:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - ./swagger:/usr/share/nginx/html/swagger
+    environment:
+      API_URL: swagger/openapi.yaml
+    ports:
+      - "8080:8080"

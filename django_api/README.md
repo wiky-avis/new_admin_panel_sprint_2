@@ -10,3 +10,13 @@
 pip install poetry==1.1.13
 poetry install --no-root && poetry shell
 ```
+
+## Собрать контейнеры
+```bash
+make up_local
+```
+
+## Запустить тесты
+```bash
+pytest
+```

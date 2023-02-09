@@ -35,8 +35,9 @@ def test_movies_list(client, create_movie):
 @pytest.mark.parametrize(
     "params, prev_page, next_page",
     (
-        ("page=2", 1, None),
-        ("page=last", 1, None),
+        ("?page=2", 1, None),
+        ("?page=last", 1, None),
+        ("", None, 2)
     ),
 )
 @pytest.mark.django_db
@@ -45,7 +46,7 @@ def test_movies_count(
 ):
     create_movies_list(51)
     url = reverse_lazy("movies")
-    response = client.get(f"{url}?{params}")
+    response = client.get(f"{url}{params}")
     assert response.status_code == 200
     result = response.json()
     # pprint(result)

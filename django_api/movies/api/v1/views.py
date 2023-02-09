@@ -1,58 +1,38 @@
 import logging
 
-from django.contrib.postgres.aggregates import ArrayAgg
-from django.db.models import F, Q
-from django.http import JsonResponse
+from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
+from django.views.generic.detail import BaseDetailView
 from django.views.generic.list import BaseListView
 
-from movies.models import Filmwork, Genre
+from django_api.config import settings
+
+from .mixins import MoviesApiMixin
 
 
 logger = logging.getLogger(__name__)
 
 
-class MoviesListApi(BaseListView):
-    model = Filmwork
-    paginate_by = 50
-    http_method_names = ["get"]
-
-    @staticmethod
-    def array_agg_person(role: str):
-        return ArrayAgg(
-            "persons__full_name",
-            filter=Q(personfilmwork__role=role),
-            distinct=True,
-        )
-
-    def get_queryset(self):
-        try:
-            movies = (
-                Filmwork.objects.prefetch_related("persons", "genres")
-                .values(
-                    "id",
-                    "title",
-                    "description",
-                    "creation_date",
-                    "rating",
-                    "type",
-                )
-                .annotate(
-                    genres=ArrayAgg("genres__name", distinct=True),
-                    actors=self.array_agg_person(role="actor"),
-                    directors=self.array_agg_person(role="director"),
-                    writers=self.array_agg_person(role="writer"),
-                )
-            )
-        except Exception:
-            logger.warning("Couldn't get a list of movies", exc_info=True)
-            return []
-        return movies
+class MoviesListApi(MoviesApiMixin, BaseListView):
+    paginate_by = settings.PAGE_SIZE
 
     def get_context_data(self, *, object_list=None, **kwargs):
+        paginator, page, queryset, _ = self.paginate_queryset(
+            self.get_queryset(), self.paginate_by
+        )
         context = {
-            "results": list(self.get_queryset()),
+            "count": paginator.count,
+            "total_pages": paginator.num_pages,
+            "prev": page.previous_page_number()
+            if page.has_previous()
+            else None,
+            "next": page.next_page_number() if page.has_next() else None,
+            "results": list(queryset),
         }
         return context
 
-    def render_to_response(self, context, **response_kwargs):
-        return JsonResponse(context)
+
+class MoviesDetailApi(MoviesApiMixin, BaseDetailView):
+    pk_url_kwarg = "id"
+
+    def get_context_data(self, **kwargs):
+        return self.get_queryset()[0] if self.get_queryset() else {}

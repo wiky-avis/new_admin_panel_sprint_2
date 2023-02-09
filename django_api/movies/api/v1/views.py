@@ -1,6 +1,5 @@
 import logging
 
-from django.core.exceptions import ImproperlyConfigured, ObjectDoesNotExist
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.list import BaseListView
 

@@ -89,12 +89,15 @@ def create_movie(db):
 @pytest.fixture
 def create_movies_list(db):
     def movies(count_movies=5):
-        for number in range(count_movies):
-            Filmwork.objects.create(
+        objs = [
+            Filmwork(
                 id=uuid.uuid4(),
-                title=f"Star Slammer {number}",
+                title=f"Star Witness {i}",
                 rating=5,
                 type="movie",
             )
+            for i in range(count_movies)
+        ]
+        Filmwork.objects.bulk_create(objs)
 
     return movies

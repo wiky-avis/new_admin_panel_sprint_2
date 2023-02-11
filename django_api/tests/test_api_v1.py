@@ -1,12 +1,12 @@
-from pprint import pprint
-
 import pytest
 from django.urls import reverse_lazy
 
 from django_api.tests.vars import MOVIES_DETAIL_RESPONSE
 
 
-@pytest.mark.django_db
+pytestmark = [pytest.mark.django_db]
+
+
 def test_movies_detail(client, create_movie):
     create_movie()
     url = reverse_lazy(
@@ -35,21 +35,19 @@ def test_movies_list(client, create_movie):
 @pytest.mark.parametrize(
     "params, prev_page, next_page",
     (
-        ("?page=2", 1, None),
-        ("?page=last", 1, None),
-        ("", None, 2)
+        ({}, None, 2),
+        ({"page": 2}, 1, None),
+        ({"page": "last"}, 1, None),
     ),
 )
-@pytest.mark.django_db
-def test_movies_count(
+def test_movies_paginator(
     client, create_movies_list, params, prev_page, next_page
 ):
     create_movies_list(51)
     url = reverse_lazy("movies")
-    response = client.get(f"{url}{params}")
+    response = client.get(url, params)
     assert response.status_code == 200
     result = response.json()
-    # pprint(result)
     assert result["count"] == 51
     assert result["total_pages"] == 2
     assert result["prev"] == prev_page

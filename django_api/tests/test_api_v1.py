@@ -65,7 +65,7 @@ def test_movies_paginator(
 def test_movie_filters(
     client, create_movie, params, title, genre, create_movies_list
 ):
-    create_movies_list(movies_count=5, movies_genres=2)
+    create_movies_list(movies_cnt=5, movie_genres_cnt=2)
     url = reverse_lazy("movies")
     response = client.get(url, params)
     assert response.status_code == 200

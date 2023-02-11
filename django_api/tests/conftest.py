@@ -90,7 +90,7 @@ def create_movie(db):
 
 @pytest.fixture
 def create_movies_list(db):
-    def movies(movies_count=1, movies_genres=None, movies_persons=None):
+    def movies(movies_cnt=1, movie_genres_cnt=None, movie_persons_cnt=None):
         objs_filmworks = (
             Filmwork(
                 id=uuid.uuid4(),
@@ -98,10 +98,10 @@ def create_movies_list(db):
                 rating=5,
                 type="movie",
             )
-            for i in range(movies_count)
+            for i in range(movies_cnt)
         )
         filmworks = Filmwork.objects.bulk_create(objs_filmworks)
-        if movies_genres:
+        if movie_genres_cnt:
             objs_genres = (
                 Genre(
                     id=genre.get("id"),
@@ -110,7 +110,7 @@ def create_movies_list(db):
                 for genre in GENRES
             )
             genres = Genre.objects.bulk_create(objs_genres)
-            for film in filmworks[:movies_genres]:
+            for film in filmworks[:movie_genres_cnt]:
                 genrefilmworks = (
                     GenreFilmwork(
                         id=uuid.uuid4(),
@@ -120,7 +120,7 @@ def create_movies_list(db):
                     for genre in genres
                 )
                 GenreFilmwork.objects.bulk_create(genrefilmworks)
-        if movies_persons:
+        if movie_persons_cnt:
             objs_persons = (
                 Person(
                     id=person.get("id"),
@@ -129,7 +129,7 @@ def create_movies_list(db):
                 for person in PERSONS
             )
             persons = Person.objects.bulk_create(objs_persons)
-            for film in filmworks[:movies_persons]:
+            for film in filmworks[:movie_persons_cnt]:
                 personfilmworks = (
                     PersonFilmwork(
                         id=uuid.uuid4(),

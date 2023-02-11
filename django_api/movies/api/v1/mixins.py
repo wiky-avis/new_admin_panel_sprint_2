@@ -44,10 +44,9 @@ class MoviesApiMixin:
         except Exception:
             logger.warning("Couldn't get a list of movies", exc_info=True)
             return []
-        genre, title, person = (
+        genre, title = (
             self.request.GET.get("genre", None),
             self.request.GET.get("title", None),
-            self.request.GET.get("person", None),
         )
         if movies and genre:
             return movies.filter(genres__icontains=genre)

@@ -2,7 +2,7 @@ import logging
 
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import Q
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 
 from movies.models import Filmwork
 
@@ -44,6 +44,15 @@ class MoviesApiMixin:
         except Exception:
             logger.warning("Couldn't get a list of movies", exc_info=True)
             return []
+        genre, title, person = (
+            self.request.GET.get("genre", None),
+            self.request.GET.get("title", None),
+            self.request.GET.get("person", None),
+        )
+        if movies and genre:
+            return movies.filter(genres__icontains=genre)
+        if movies and title:
+            return movies.filter(title__exact=title)
         return movies
 
     def render_to_response(self, context, **response_kwargs):

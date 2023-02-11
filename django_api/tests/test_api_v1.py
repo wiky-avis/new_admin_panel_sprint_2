@@ -1,3 +1,4 @@
+import dpath
 import pytest
 from django.urls import reverse_lazy
 
@@ -52,3 +53,27 @@ def test_movies_paginator(
     assert result["total_pages"] == 2
     assert result["prev"] == prev_page
     assert result["next"] == next_page
+
+
+@pytest.mark.parametrize(
+    "params, title, genre",
+    (
+        ({"title": "Star Witness 3"}, "Star Witness 3", None),
+        ({"genre": "Adventure"}, None, "Adventure"),
+    ),
+)
+def test_movie_filters(
+    client, create_movie, params, title, genre, create_movies_list
+):
+    create_movies_list(movies_count=5, movies_genres=2)
+    url = reverse_lazy("movies")
+    response = client.get(url, params)
+    assert response.status_code == 200
+    result = response.json()
+    if title:
+        assert result.get("count") == 1
+        assert dpath.get(result, "/results/0/title", default=None) == title
+    if genre:
+        assert result.get("count") == 2
+        assert genre in dpath.get(result, "/results/0/genres", default=None)
+        assert genre in dpath.get(result, "/results/1/genres", default=None)

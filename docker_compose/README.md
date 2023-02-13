@@ -1,6 +1,6 @@
 # Проектное задание: Docker-compose
 
-## Запуск
+### Запуск
 
 - Создать env файл
 ```bash
@@ -11,3 +11,7 @@ cp .env.example .env
 ```bash
 make up
 ```
+
+### Доступные адреса
+http://localhost/admin/
+http://localhost/api/v1/movies/

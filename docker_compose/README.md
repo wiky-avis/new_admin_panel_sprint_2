@@ -16,5 +16,5 @@ make up
 ```
 
 ### Доступные адреса
-http://localhost/admin/
-http://localhost/api/v1/movies/
+ - http://localhost/admin/
+ - http://localhost/api/v1/movies/

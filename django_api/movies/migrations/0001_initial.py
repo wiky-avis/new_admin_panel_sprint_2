@@ -14,8 +14,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(sql='CREATE SCHEMA IF NOT EXISTS content;'),
-        migrations.RunSQL(sql='ALTER ROLE app SET search_path TO content,public;'),
         migrations.CreateModel(
             name='Filmwork',
             fields=[

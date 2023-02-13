@@ -1,9 +1,8 @@
 import logging
 
+from django.conf import settings
 from django.views.generic.detail import BaseDetailView
 from django.views.generic.list import BaseListView
-
-from django_api.config import settings
 
 from .mixins import MoviesApiMixin
 

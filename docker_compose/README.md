@@ -1,6 +1,9 @@
 # Проектное задание: Docker-compose
 
 ### Запуск
+```bash
+cd simple_project
+```
 
 - Создать env файл
 ```bash

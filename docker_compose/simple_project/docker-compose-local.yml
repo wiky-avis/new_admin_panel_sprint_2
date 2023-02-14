@@ -12,7 +12,6 @@ services:
 
   service:
     build: app
-    command: uwsgi --strict --ini uwsgi.ini
     restart: always
     volumes:
       - static_value:/opt/app/static/

@@ -1,23 +1,29 @@
-up:
-	docker-compose up -d
+up-local:
+	docker-compose -f docker-compose-local.yml up -d --build
 
-build:
-	docker-compose up -d --build
+up-prod:
+	docker-compose -f docker-compose-local.yml -f docker-compose-prod.yml up -d --build
+
+build-local:
+	docker-compose -f docker-compose-local.yml up -d --build
+
+build-prod:
+	docker-compose -f docker-compose-local.yml up -d --build
 
 makemigrations:
-	docker-compose exec service python manage.py makemigrations
+	docker-compose -f docker-compose-local.yml exec service python manage.py makemigrations
 
 flush:
-	docker-compose exec service python manage.py flush --no-input
+	docker-compose -f docker-compose-local.yml exec service python manage.py flush --no-input
 
 migrate:
-	docker-compose exec service python manage.py migrate --noinput
+	docker-compose -f docker-compose-local.yml exec service python manage.py migrate --noinput
 
 static:
-	docker-compose exec service python manage.py collectstatic --no-input
+	docker-compose -f docker-compose-local.yml exec service python manage.py collectstatic --no-input
 
 createsuperuser:
-	docker-compose exec service python manage.py createsuperuser
+	docker-compose -f docker-compose-local.yml exec service python manage.py createsuperuser
 
 down:
-	docker-compose down -v
+	docker-compose -f docker-compose-local.yml down -v

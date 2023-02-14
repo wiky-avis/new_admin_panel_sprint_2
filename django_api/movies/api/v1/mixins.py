@@ -4,7 +4,7 @@ from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models import Q
 from django.http import JsonResponse
 
-from movies.models import Filmwork
+from movies.models import Filmwork, PersonFilmwork
 
 
 logger = logging.getLogger(__name__)
@@ -36,9 +36,15 @@ class MoviesApiMixin:
                 )
                 .annotate(
                     genres=ArrayAgg("genres__name", distinct=True),
-                    actors=self.array_agg_person(role="actor"),
-                    directors=self.array_agg_person(role="director"),
-                    writers=self.array_agg_person(role="writer"),
+                    actors=self.array_agg_person(
+                        role=PersonFilmwork.Roles.ACTOR
+                    ),
+                    directors=self.array_agg_person(
+                        role=PersonFilmwork.Roles.DIRECTOR
+                    ),
+                    writers=self.array_agg_person(
+                        role=PersonFilmwork.Roles.WRITER
+                    ),
                 )
             )
         except Exception:

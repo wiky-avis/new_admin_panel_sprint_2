@@ -11,10 +11,15 @@ cp .env.example .env
 ```
 
 - Собрать контейнеры
+для локальной разработки
 ```bash
-make up
+make up-local
+```
+для прода
+```bash
+make up-prod
 ```
 
-### Доступные адреса
- - http://localhost/admin/
- - http://localhost/api/v1/movies/
+### Доступные эндпойнты
+ - /admin/
+ - /api/v1/movies/
